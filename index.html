@@ -17,18 +17,23 @@
           <button onclick="toggle('degToggle')" id="degButton">DEG</button>
           <button class="btn">F-E</button>
         </div>
-        <div class="row">
-          <button class="btn">MC</button>
-          <button class="btn">MR</button>
-          <button class="btn">M+</button>
-          <button class="btn">M-</button>
-          <button class="btn">MS</button>
+        <div class="row" onclick="memoryFunction(event)">
+          <button >MC</button>
+          <button >MR</button>
+          <button >M+</button>
+          <button >M-</button>
+          <button >MS</button>
         </div>
         <div class="row">
           <button onclick="toggle()">Trigonometry</button>
-          <button class="btn">Function</button>
+          <button onclick="toggle('functionToggle')">Function</button>
         </div>
         <div class="row">
+          <div id="functionButton" style="display:none">
+            <button class="btn">rand</button>
+            <button class="btn">ceil</button>
+            <button class="btn">floor</button>
+          </div>
           <div id="trigo_function" style="display: none;">
             <div>
           <button onclick="toggle('trigoToggle')">2<sup>nd</sup></button>

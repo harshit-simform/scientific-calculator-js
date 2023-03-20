@@ -8,7 +8,10 @@ var toggleFlag = {
   inverseFunction: true,
   hyperFunction: true,
   radian: true,
+  absFlag: true,
+  functionToggle: true,
 };
+var memory = "";
 const factorial = (n) => (!(n > 1) ? 1 : factorial(n - 1) * n);
 const trigoButton = document.querySelectorAll("#trigo_function .btn");
 const button = document.querySelectorAll(".btn");
@@ -139,6 +142,29 @@ button.forEach((btn) => {
       case "1/x":
         btnText = "1/";
         operation = "1/";
+        break;
+      case "|x|":
+        btnText = "|";
+        if (toggleFlag.absFlag) {
+          operation = "Math.abs(";
+          toggleFlag.absFlag = !toggleFlag.absFlag;
+        } else {
+          operation = ")";
+          toggleFlag.absFlag = !toggleFlag.absFlag;
+        }
+        break;
+      case "10x":
+        btnText = "10^";
+        operation = "10**";
+        break;
+      case "+/-":
+        btnText = `${data.screen.pop() * -1}`;
+        operation = `${data.operation.pop() * -1}`;
+        break;
+      case "exp":
+        btnText = "e^(";
+        operation = "Math.exp(";
+        break;
     }
     data.operation.push(operation);
     data.screen.push(btnText);
@@ -229,6 +255,15 @@ function toggle(value) {
       toggleFlag.radian = !toggleFlag.radian;
     }
     return;
+  } else if (value == "functionToggle") {
+    if (toggleFlag.functionToggle) {
+      document.getElementById("functionButton").style.display = "block";
+      toggleFlag.functionToggle = !toggleFlag.functionToggle;
+    } else {
+      toggleFlag.functionToggle = !toggleFlag.functionToggle;
+      document.getElementById("functionButton").style.display = "none";
+    }
+    return;
   }
 
   if (toggleFlag.trigoFunction) {
@@ -242,8 +277,6 @@ function toggle(value) {
 function backFunction() {
   data.operation.pop();
   data.screen.pop();
-  console.log(data.operation, "in back");
-  console.log(data.screen, "in back");
   screen.value = data.screen.join("");
 }
 console.log(document.querySelectorAll("#trigo_function .btn"));
@@ -274,4 +307,44 @@ function inverseTrigoFunction(operation, value) {
     value = (value * 180) / Math.PI;
   }
   return value;
+}
+
+function memoryFunction(event) {
+  console.log(event.target.innerHTML);
+  const operation = event.target.innerHTML;
+  console.log("in memory");
+  switch (operation) {
+    case "MS":
+      console.log(data.screen, data.operation, "in ms");
+      memory = data.screen.join("");
+      data.screen = [];
+      data.operation = [];
+      screen.value = "";
+      break;
+    case "MR":
+      data.operation = [];
+      data.screen = [];
+      console.log(data.screen, data.operation, "in mr");
+      data.operation.push(memory);
+      data.screen.push(memory);
+      screen.value = data.screen.join("");
+      break;
+    case "MC":
+      console.log(data.screen, data.operation, "in mc");
+      memory = "";
+      screen.value = "";
+      break;
+    case "M+":
+      memory = Number(memory) + Number(eval(data.screen.join("")));
+      screen.value = "";
+      data.screen = [];
+      data.operation = [];
+      break;
+    case "M-":
+      memory = Number(memory) - Number(eval(data.screen.join("")));
+      screen.value = "";
+      data.screen = [];
+      data.operation = [];
+      break;
+  }
 }
