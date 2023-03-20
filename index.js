@@ -7,6 +7,7 @@ var toggleFlag = {
   trigoFunction: true,
   inverseFunction: true,
   hyperFunction: true,
+  radian: true,
 };
 const factorial = (n) => (!(n > 1) ? 1 : factorial(n - 1) * n);
 const trigoButton = document.querySelectorAll("#trigo_function .btn");
@@ -34,33 +35,33 @@ button.forEach((btn) => {
         btnText = "^";
         operation = "**";
         break;
-      // case "x2":
-      //   btnText = `${data.screen[data.screen.length - 1]}${"\00B2"}`;
-      //   operation = `Math.pow(${data.operation.pop()},2})`;
-      //   break;
+      case "x2":
+        btnText = `${data.screen.pop()}^2`;
+        operation = `Math.pow(${data.operation.pop()},2)`;
+        break;
       case "sin":
         btnText = "sin(";
-        operation = "Math.sin(";
+        operation = "trigonometryValue(Math.sin,";
         break;
       case "cos":
         btnText = "cos(";
-        operation = "Math.cos(";
+        operation = "trigonometryValue(Math.cos,";
         break;
       case "tan":
         btnText = "tan(";
-        operation = "Math.tan(";
+        operation = "trigonometryValue(Math.tan,";
         break;
       case "cosec":
         btnText = "cosec(";
-        operation = "Math.cosec(";
+        operation = "trigonometryValue('Math.cosec',";
         break;
       case "sec":
         btnText = "sec(";
-        operation = "Math.sec(";
+        operation = "trigonometryValue('Math.sec',";
         break;
       case "cot":
         btnText = "cot(";
-        operation = "Math.cot(";
+        operation = "trigonometryValue('Math.cot',";
         break;
       case "log":
         btnText = "log(";
@@ -89,27 +90,27 @@ button.forEach((btn) => {
         break;
       case "sin-1":
         btnText = "arcsin(";
-        operation = "Math.asin(";
+        operation = "inverseTrigoFunction(Math.asin,";
         break;
       case "cos-1":
         btnText = "arccos(";
-        operation = "Math.acos(";
+        operation = "inverseTrigoFunction(Math.acos,";
         break;
       case "tan-1":
         btnText = "arctan(";
-        operation = "Math.atan(";
+        operation = "inverseTrigoFunction(Math.atan,";
         break;
       case "cosec-1":
         btnText = "arccosec(";
-        operation = "Math.acosec(";
+        operation = "inverseTrigoFunction('Math.acosec',";
         break;
       case "sec-1":
         btnText = "arcsec(";
-        operation = "Math.asec(";
+        operation = "inverseTrigoFunction('Math.asec',";
         break;
       case "cot-1":
         btnText = "arccot(";
-        operation = "Math.acot(";
+        operation = "inverseTrigoFunction('Math.acot',";
         break;
       case "sinh":
         btnText = "sinh(";
@@ -135,6 +136,9 @@ button.forEach((btn) => {
         btnText = "cosech(";
         operation = "Math.cosech(";
         break;
+      case "1/x":
+        btnText = "1/";
+        operation = "1/";
     }
     data.operation.push(operation);
     data.screen.push(btnText);
@@ -145,7 +149,8 @@ button.forEach((btn) => {
 });
 
 function finalAnswer() {
-  console.log(data.operation);
+  // debugger;
+  console.log(data.operation.join(""));
   try {
     let value = eval(data.operation.join(""));
     console.log(value, "vlaue here");
@@ -154,6 +159,7 @@ function finalAnswer() {
     console.log(data.operation, data.screen, "infinal");
     screen.value = value;
   } catch {
+    console.log(data.operation, data.screen, "error");
     data.operation = [];
     data.screen = [];
     screen.value = "Invalid Syntax";
@@ -214,6 +220,15 @@ function toggle(value) {
     });
     toggleFlag.hyperFunction = !toggleFlag.hyperFunction;
     return;
+  } else if (value == "degToggle") {
+    if (toggleFlag.radian) {
+      document.getElementById("degButton").style.background = "#bdcbd5";
+      toggleFlag.radian = !toggleFlag.radian;
+    } else {
+      document.getElementById("degButton").style.background = "#ecf0f3";
+      toggleFlag.radian = !toggleFlag.radian;
+    }
+    return;
   }
 
   if (toggleFlag.trigoFunction) {
@@ -232,3 +247,31 @@ function backFunction() {
   screen.value = data.screen.join("");
 }
 console.log(document.querySelectorAll("#trigo_function .btn"));
+function trigonometryValue(operation, value) {
+  if (!toggleFlag.radian) {
+    console.log("in trigon");
+    value = (value * Math.PI) / 180;
+  }
+  if (operation == "Math.cosec") {
+    return 1 / Math.sin(value);
+  }
+  if (operation == "Math.sec") {
+    return 1 / Math.cos(value);
+  }
+  if (operation == "Math.cot") {
+    return 1 / Math.tan(value);
+  }
+  return operation(value);
+}
+function inverseTrigoFunction(operation, value) {
+  console.log("in inverse");
+  if (operation == "Math.asec") {
+    value = 1 / Math.acos(value);
+  } else {
+    value = operation(value);
+  }
+  if (!toggleFlag.radian) {
+    value = (value * 180) / Math.PI;
+  }
+  return value;
+}
