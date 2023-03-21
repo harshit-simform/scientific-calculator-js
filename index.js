@@ -11,171 +11,275 @@ var toggleFlag = {
   absFlag: true,
   functionToggle: true,
 };
+function uiclick(e) {
+  console.log("trial");
+  console.log();
+  handleClickEvent(e.target.innerText);
+}
 var memory = "";
 const factorial = (n) => (!(n > 1) ? 1 : factorial(n - 1) * n);
 const trigoButton = document.querySelectorAll("#trigo_function .btn");
-const button = document.querySelectorAll(".btn");
-console.log(button);
-button.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    var btnText = btn.innerText;
-    console.log(btnText);
-    let operation = btn.innerText;
-    switch (btnText) {
-      case "\u00F7":
-        btnText = "/";
-        operation = "/";
-        break;
-      case "\u2A09":
-        btnText = "*";
-        operation = "*";
-        break;
-      case "mod":
-        btnText = "%";
-        operation = "%";
-        break;
-      case "xy":
-        btnText = "^";
-        operation = "**";
-        break;
-      case "x2":
-        btnText = `${data.screen.pop()}^2`;
-        operation = `Math.pow(${data.operation.pop()},2)`;
-        break;
-      case "sin":
-        btnText = "sin(";
-        operation = "trigonometryValue(Math.sin,";
-        break;
-      case "cos":
-        btnText = "cos(";
-        operation = "trigonometryValue(Math.cos,";
-        break;
-      case "tan":
-        btnText = "tan(";
-        operation = "trigonometryValue(Math.tan,";
-        break;
-      case "cosec":
-        btnText = "cosec(";
-        operation = "trigonometryValue('Math.cosec',";
-        break;
-      case "sec":
-        btnText = "sec(";
-        operation = "trigonometryValue('Math.sec',";
-        break;
-      case "cot":
-        btnText = "cot(";
-        operation = "trigonometryValue('Math.cot',";
-        break;
-      case "log":
-        btnText = "log(";
-        operation = "Math.log10(";
-        break;
-      case "ln":
-        btnText = "ln(";
-        operation = "Math.log(";
-        break;
-      case "\u03C0":
-        btnText = "\u03C0";
-        operation = "Math.PI";
-        break;
-      case "e":
-        btnText = "e";
-        operation = "Math.E";
-        break;
-      case "x!":
-        btnText = "!";
-        operation = factorial(data.operation.pop());
-        console.log(operation);
-        break;
-      case "\u221A":
-        btnText = "\u221A(";
-        operation = "Math.sqrt(";
-        break;
-      case "sin-1":
-        btnText = "arcsin(";
-        operation = "inverseTrigoFunction(Math.asin,";
-        break;
-      case "cos-1":
-        btnText = "arccos(";
-        operation = "inverseTrigoFunction(Math.acos,";
-        break;
-      case "tan-1":
-        btnText = "arctan(";
-        operation = "inverseTrigoFunction(Math.atan,";
-        break;
-      case "cosec-1":
-        btnText = "arccosec(";
-        operation = "inverseTrigoFunction('Math.acosec',";
-        break;
-      case "sec-1":
-        btnText = "arcsec(";
-        operation = "inverseTrigoFunction('Math.asec',";
-        break;
-      case "cot-1":
-        btnText = "arccot(";
-        operation = "inverseTrigoFunction('Math.acot',";
-        break;
-      case "sinh":
-        btnText = "sinh(";
-        operation = "Math.sinh(";
-        break;
-      case "cosh":
-        btnText = "cosh(";
-        operation = "Math.cosh(";
-        break;
-      case "tanh":
-        btnText = "tanh(";
-        operation = "Math.tanh(";
-        break;
-      case "sech":
-        btnText = "sech(";
-        operation = "Math.sech(";
-        break;
-      case "coth":
-        btnText = "coth(";
-        operation = "Math.coth(";
-        break;
-      case "cosech":
-        btnText = "cosech(";
-        operation = "Math.cosech(";
-        break;
-      case "1/x":
-        btnText = "1/";
-        operation = "1/";
-        break;
-      case "|x|":
-        btnText = "|";
-        if (toggleFlag.absFlag) {
-          operation = "Math.abs(";
-          toggleFlag.absFlag = !toggleFlag.absFlag;
-        } else {
-          operation = ")";
-          toggleFlag.absFlag = !toggleFlag.absFlag;
-        }
-        break;
-      case "10x":
-        btnText = "10^";
-        operation = "10**";
-        break;
-      case "+/-":
-        btnText = `${data.screen.pop() * -1}`;
-        operation = `${data.operation.pop() * -1}`;
-        break;
-      case "exp":
-        btnText = "e^(";
-        operation = "Math.exp(";
-        break;
-    }
-    data.operation.push(operation);
-    data.screen.push(btnText);
-    screen.value = data.screen.join("");
-    console.log(data.screen);
-    console.log(data.operation);
-  });
+
+window.addEventListener("keydown", (e) => {
+  e.preventDefault();
+
+  console.log(e);
+  if (e.key == "Enter") {
+    console.log("in if in window");
+    finalAnswer(e);
+    return;
+  } else if (e.key == "Backspace") {
+    backFunction(e);
+  } else {
+    handleClickEvent(e.key);
+  }
 });
 
-function finalAnswer() {
-  // debugger;
+function handleClickEvent(btn) {
+  var btnText = btn;
+  console.log(btnText);
+  let operation = btn;
+  switch (btnText) {
+    case "1":
+      btnText = "1";
+      operation = "1";
+      break;
+    case "2":
+      btnText = "2";
+      operation = "2";
+      break;
+    case "3":
+      btnText = "3";
+      operation = "3";
+      break;
+    case "4":
+      btnText = "4";
+      operation = "4";
+      break;
+    case "5":
+      btnText = "5";
+      operation = "5";
+      break;
+    case "6":
+      btnText = "6";
+      operation = "6";
+      break;
+    case "7":
+      btnText = "7";
+      operation = "7";
+      break;
+    case "8":
+      btnText = "8";
+      operation = "8";
+      break;
+    case "9":
+      btnText = "9";
+      operation = "9";
+      break;
+    case "0":
+      btnText = "0";
+      operation = "0";
+      break;
+    case ".":
+      btnText = ".";
+      operation = ".";
+      break;
+    case "(":
+      btnText = "(";
+      operation = "(";
+      break;
+    case ")":
+      btnText = ")";
+      operation = ")";
+      break;
+    case "+":
+      btnText = "+";
+      operation = "+";
+      break;
+    case "-":
+      btnText = "-";
+      operation = "-";
+      break;
+    case "\u00F7":
+    case "/":
+      btnText = "/";
+      operation = "/";
+      break;
+    case "\u2A09":
+    case "*":
+      btnText = "*";
+      operation = "*";
+      break;
+    case "mod":
+    case "%":
+      btnText = "%";
+      operation = "%";
+      break;
+    case "xy":
+      btnText = "^";
+      operation = "**";
+      break;
+    case "x2":
+      btnText = `${data.screen.pop()}^2`;
+      operation = `Math.pow(${data.operation.pop()},2)`;
+      break;
+    case "sin":
+      btnText = "sin(";
+      operation = "trigonometryValue(Math.sin,";
+      break;
+    case "cos":
+      btnText = "cos(";
+      operation = "trigonometryValue(Math.cos,";
+      break;
+    case "tan":
+      btnText = "tan(";
+      operation = "trigonometryValue(Math.tan,";
+      break;
+    case "cosec":
+      btnText = "cosec(";
+      operation = "trigonometryValue('Math.cosec',";
+      break;
+    case "sec":
+      btnText = "sec(";
+      operation = "trigonometryValue('Math.sec',";
+      break;
+    case "cot":
+      btnText = "cot(";
+      operation = "trigonometryValue('Math.cot',";
+      break;
+    case "log":
+      btnText = "log(";
+      operation = "Math.log10(";
+      break;
+    case "ln":
+      btnText = "ln(";
+      operation = "Math.log(";
+      break;
+    case "\u03C0":
+      btnText = "\u03C0";
+      operation = "Math.PI";
+      break;
+    case "e":
+      btnText = "e";
+      operation = "Math.E";
+      break;
+    case "x!":
+      btnText = "!";
+      operation = factorial(data.operation.pop());
+      console.log(operation);
+      break;
+    case "\u221A":
+      btnText = "\u221A(";
+      operation = "Math.sqrt(";
+      break;
+    case "\u221b":
+      btnText = "\u221b(";
+      operation = "Math.cbrt(";
+      break;
+    case "sin-1":
+      btnText = "arcsin(";
+      operation = "inverseTrigoFunction(Math.asin,";
+      break;
+    case "cos-1":
+      btnText = "arccos(";
+      operation = "inverseTrigoFunction(Math.acos,";
+      break;
+    case "tan-1":
+      btnText = "arctan(";
+      operation = "inverseTrigoFunction(Math.atan,";
+      break;
+    case "cosec-1":
+      btnText = "arccosec(";
+      operation = "inverseTrigoFunction('Math.acosec',";
+      break;
+    case "sec-1":
+      btnText = "arcsec(";
+      operation = "inverseTrigoFunction('Math.asec',";
+      break;
+    case "cot-1":
+      btnText = "arccot(";
+      operation = "inverseTrigoFunction('Math.acot',";
+      break;
+    case "sinh":
+      btnText = "sinh(";
+      operation = "hyperFunction(Math.sinh,";
+      break;
+    case "cosh":
+      btnText = "cosh(";
+      operation = "hyperFunction(Math.cosh,";
+      break;
+    case "tanh":
+      btnText = "tanh(";
+      operation = "hyperFunction(Math.tanh,";
+      break;
+    case "sech":
+      btnText = "sech(";
+      operation = "hyperFunction('Math.sech',";
+      break;
+    case "coth":
+      btnText = "coth(";
+      operation = "hyperFunction('Math.coth',";
+      break;
+    case "cosech":
+      btnText = "cosech(";
+      operation = "hyperFunction('Math.cosech',";
+      break;
+    case "1/x":
+      btnText = "1/";
+      operation = "1/";
+      break;
+    case "|x|":
+      btnText = "|";
+      if (toggleFlag.absFlag) {
+        operation = "Math.abs(";
+        toggleFlag.absFlag = !toggleFlag.absFlag;
+      } else {
+        operation = ")";
+        toggleFlag.absFlag = !toggleFlag.absFlag;
+      }
+      break;
+    case "10x":
+      btnText = "10^";
+      operation = "10**";
+      break;
+    case "+/-":
+      btnText = `${data.screen.pop() * -1}`;
+      operation = `${data.operation.pop() * -1}`;
+      break;
+    case "exp":
+      btnText = "e^(";
+      operation = "Math.exp(";
+      break;
+    case "rand":
+      var rand = Math.random();
+      btnText = rand;
+      operation = rand;
+      break;
+    case "ceil":
+      btnText = `${Math.ceil(data.screen.join(""))}`;
+      operation = `${Math.ceil(data.operation.join(""))}`;
+      emptyarray();
+      break;
+    case "floor":
+      btnText = `${Math.floor(data.screen.join(""))}`;
+      operation = `${Math.floor(data.operation.join(""))}`;
+      emptyarray();
+      break;
+    default:
+      btnText = "";
+      operation = "";
+      break;
+  }
+  data.operation.push(operation);
+  data.screen.push(btnText);
+  screen.value = data.screen.join("");
+  console.log(data.screen);
+  console.log(data.operation);
+}
+
+function finalAnswer(event) {
+  console.log("finalAnswer");
+  event.stopPropagation();
   console.log(data.operation.join(""));
   try {
     let value = eval(data.operation.join(""));
@@ -184,20 +288,21 @@ function finalAnswer() {
     data.screen = [value];
     console.log(data.operation, data.screen, "infinal");
     screen.value = value;
+
+    return;
   } catch {
     console.log(data.operation, data.screen, "error");
-    data.operation = [];
-    data.screen = [];
+    emptyarray();
+    console.log(data.operation, data.screen, "error");
+
     screen.value = "Invalid Syntax";
+    return;
   }
 }
-function clearScreen() {
-  console.log("in clear");
+function emptyarray() {
   data.operation = [];
   data.screen = [];
-  console.log(data.operation);
-  console.log(data.screen);
-  screen.value = "";
+  return;
 }
 function toggle(value) {
   let trigoObject = {
@@ -308,7 +413,22 @@ function inverseTrigoFunction(operation, value) {
   }
   return value;
 }
-
+function hyperFunction(operation, value) {
+  if (!toggleFlag.radian) {
+    console.log("in trigon");
+    value = (value * Math.PI) / 180;
+  }
+  if (operation == "Math.cosech") {
+    return 1 / Math.sinh(value);
+  }
+  if (operation == "Math.sech") {
+    return 1 / Math.cosh(value);
+  }
+  if (operation == "Math.coth") {
+    return 1 / Math.tanh(value);
+  }
+  return operation(value);
+}
 function memoryFunction(event) {
   console.log(event.target.innerHTML);
   const operation = event.target.innerHTML;
@@ -317,13 +437,10 @@ function memoryFunction(event) {
     case "MS":
       console.log(data.screen, data.operation, "in ms");
       memory = data.screen.join("");
-      data.screen = [];
-      data.operation = [];
+      emptyarray();
       screen.value = "";
       break;
     case "MR":
-      data.operation = [];
-      data.screen = [];
       console.log(data.screen, data.operation, "in mr");
       data.operation.push(memory);
       data.screen.push(memory);
@@ -337,14 +454,21 @@ function memoryFunction(event) {
     case "M+":
       memory = Number(memory) + Number(eval(data.screen.join("")));
       screen.value = "";
-      data.screen = [];
-      data.operation = [];
+      emptyarray();
       break;
     case "M-":
       memory = Number(memory) - Number(eval(data.screen.join("")));
       screen.value = "";
-      data.screen = [];
-      data.operation = [];
+      emptyarray();
       break;
   }
+}
+function clearScreen(event) {
+  event.preventDefault();
+  console.log("in clear");
+  emptyarray();
+  console.log(data.operation);
+  console.log(data.screen);
+  screen.value = "";
+  return;
 }
