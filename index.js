@@ -1,4 +1,6 @@
 var screen = document.getElementById("screen");
+const trigoButton = document.querySelectorAll("#trigo_function .btn");
+var memory = "";
 var data = {
   screen: [],
   operation: [],
@@ -11,15 +13,16 @@ var toggleFlag = {
   absFlag: true,
   functionToggle: true,
 };
+//function that will be called whenever user clicks on the screen or button
 function uiclick(e) {
   console.log("trial");
   console.log();
-  handleClickEvent(e.target.innerText);
+  handleEvents(e.target.innerText);
 }
-var memory = "";
+// function that calculates the factorial of the given number
 const factorial = (n) => (!(n > 1) ? 1 : factorial(n - 1) * n);
-const trigoButton = document.querySelectorAll("#trigo_function .btn");
-
+console.log(trigoButton);
+//event listner that will be called when user presses any key in the keyboard
 window.addEventListener("keydown", (e) => {
   e.preventDefault();
 
@@ -31,11 +34,11 @@ window.addEventListener("keydown", (e) => {
   } else if (e.key == "Backspace") {
     backFunction(e);
   } else {
-    handleClickEvent(e.key);
+    handleEvents(e.key);
   }
 });
-
-function handleClickEvent(btn) {
+// funtion for handling keyboard as well as click events
+function handleEvents(btn) {
   var btnText = btn;
   console.log(btnText);
   let operation = btn;
@@ -265,10 +268,24 @@ function handleClickEvent(btn) {
       operation = `${Math.floor(data.operation.join(""))}`;
       emptyarray();
       break;
+    case "F-E":
+      console.log(data.operation.length);
+      if (data.operation.length === 0) {
+        return;
+      }
+      btnText = `${Number.parseFloat(data.operation.join("")).toExponential()}`;
+      operation = `${Number.parseFloat(
+        data.operation.join("")
+      ).toExponential()}`;
+      emptyarray();
+      break;
     default:
       btnText = "";
       operation = "";
       break;
+  }
+  if (btnText == "" && operation == "") {
+    return;
   }
   data.operation.push(operation);
   data.screen.push(btnText);
@@ -276,7 +293,7 @@ function handleClickEvent(btn) {
   console.log(data.screen);
   console.log(data.operation);
 }
-
+// main function that calulates every operation and displays the results
 function finalAnswer(event) {
   console.log("finalAnswer");
   event.stopPropagation();
@@ -294,16 +311,17 @@ function finalAnswer(event) {
     console.log(data.operation, data.screen, "error");
     emptyarray();
     console.log(data.operation, data.screen, "error");
-
     screen.value = "Invalid Syntax";
     return;
   }
 }
+// function for erasing everything
 function emptyarray() {
   data.operation = [];
   data.screen = [];
   return;
 }
+// function that handles all the toggle operations (trigoToggle, inverseToggle , hyperToggle , degToggle , functionToggle)
 function toggle(value) {
   let trigoObject = {
     sin: ["sin<sup>-1</sup>", "sin-1", "sinh"],
@@ -317,19 +335,24 @@ function toggle(value) {
   console.log(value);
   if (value == "trigoToggle") {
     trigoButton.forEach((btn) => {
+      // console.log(btn.innerHTML);
       let btnText = btn.innerText;
       let btnTextReplacement = btn.innerText;
       if (toggleFlag.inverseFunction) {
+        console.log(btnText, "in if");
         btnTextReplacement = trigoObject.hasOwnProperty(`${btnText}`)
           ? trigoObject[btnText][0]
           : btnText;
+        console.log(btnTextReplacement, "in if");
       } else {
         console.log(btnText);
         btnTextReplacement = Object.keys(trigoObject).find(
           (key) => trigoObject[key][1] === btnText
         );
+        console.log(btnTextReplacement, "in heree");
       }
       btn.innerHTML = btnTextReplacement;
+      console.log(btn.innerHTML, "final");
     });
     toggleFlag.inverseFunction = !toggleFlag.inverseFunction;
     return;
@@ -353,10 +376,10 @@ function toggle(value) {
     return;
   } else if (value == "degToggle") {
     if (toggleFlag.radian) {
-      document.getElementById("degButton").style.background = "#bdcbd5";
+      document.getElementById("degButton").style.background = "#91c1e7";
       toggleFlag.radian = !toggleFlag.radian;
     } else {
-      document.getElementById("degButton").style.background = "#ecf0f3";
+      document.getElementById("degButton").style.background = "#f8f8f8";
       toggleFlag.radian = !toggleFlag.radian;
     }
     return;
@@ -379,12 +402,14 @@ function toggle(value) {
     document.getElementById("trigo_function").style.display = "none";
   }
 }
+// function that handles back button clicks and clears the screen
 function backFunction() {
   data.operation.pop();
   data.screen.pop();
   screen.value = data.screen.join("");
 }
 console.log(document.querySelectorAll("#trigo_function .btn"));
+//functoin for calculating trignometry values
 function trigonometryValue(operation, value) {
   if (!toggleFlag.radian) {
     console.log("in trigon");
@@ -401,6 +426,7 @@ function trigonometryValue(operation, value) {
   }
   return operation(value);
 }
+//function for calculating inverse trignometry values
 function inverseTrigoFunction(operation, value) {
   console.log("in inverse");
   if (operation == "Math.asec") {
@@ -413,6 +439,7 @@ function inverseTrigoFunction(operation, value) {
   }
   return value;
 }
+// function for calculating hyperbolic trignometry values
 function hyperFunction(operation, value) {
   if (!toggleFlag.radian) {
     console.log("in trigon");
@@ -429,6 +456,7 @@ function hyperFunction(operation, value) {
   }
   return operation(value);
 }
+// function that calculates and stores the data in the memory
 function memoryFunction(event) {
   console.log(event.target.innerHTML);
   const operation = event.target.innerHTML;
@@ -436,7 +464,7 @@ function memoryFunction(event) {
   switch (operation) {
     case "MS":
       console.log(data.screen, data.operation, "in ms");
-      memory = data.screen.join("");
+      memory = eval(data.screen.join(""));
       emptyarray();
       screen.value = "";
       break;
@@ -463,6 +491,7 @@ function memoryFunction(event) {
       break;
   }
 }
+// function that clears the screen
 function clearScreen(event) {
   event.preventDefault();
   console.log("in clear");

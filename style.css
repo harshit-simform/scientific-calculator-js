@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-  width: 30%;
+  width: 35%;
   min-height: 50vh;
   /* padding: 10px; */
   /* border-radius: 8px; */
@@ -20,7 +20,7 @@ body {
 }
 .display #screen {
   width: 99%;
-  height: 70px;
+  height: 100px;
   font-size: 35px;
   outline: none;
   border: none;
@@ -37,11 +37,15 @@ body {
 }
 
 .btns .row button {
-  width: 18.7%;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  min-width: 18.7%;
   height: 5vh;
   font-size: 16px;
   background: #f8f8f8;
   border: 1px solid lightgray;
+  outline: none;
   /* border: none;
   outline: none; */
   /* margin: 5px; */
@@ -51,11 +55,15 @@ body {
 
 .btns #trigo_function button,
 .btns #functionButton button {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
   width: 18.7%;
   height: 5vh;
   font-size: 16px;
   background: #f8f8f8;
   border: 1px solid lightgray;
+  outline: none;
   /* width: 17%;
   height: 3vh;
   font-size: 16px;
@@ -66,20 +74,27 @@ body {
   background: #bdcbd5;
   box-shadow: 5px 5px 8px #00000020, -5px -5px 8px #ffffff; */
 }
-.btns .twoButton {
+.twoButton button {
   display: flex !important;
-  justify-content: flex-start !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 .row {
   display: flex;
 }
 .toggledivs {
-  width: 96%;
+  width: 100%;
 }
 .bg-white {
   background-color: white !important;
-}
-.boldFont {
   font-weight: 800;
   font-size: 18px;
+}
+.bg-blue {
+  background: #91c1e7 !important;
+  border: none !important;
+}
+.row svg {
+  width: 60%;
+  height: 60%;
 }
