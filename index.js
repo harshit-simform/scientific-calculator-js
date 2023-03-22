@@ -168,7 +168,7 @@ function handleEvents(btn) {
       break;
     case "x!":
       btnText = "!";
-      operation = factorial(data.operation.pop());
+      operation = factorial(data.operation.join(""));
       console.log(operation);
       break;
     case "\u221A":
@@ -295,6 +295,9 @@ function handleEvents(btn) {
 }
 // main function that calulates every operation and displays the results
 function finalAnswer(event) {
+  if (data.operation.length === 0) {
+    return;
+  }
   console.log("finalAnswer");
   event.stopPropagation();
   console.log(data.operation.join(""));
