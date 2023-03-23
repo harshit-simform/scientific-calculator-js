@@ -5,6 +5,7 @@ var data = {
   screen: [],
   operation: [],
 };
+
 var toggleFlag = {
   trigoFunction: true,
   inverseFunction: true,
@@ -13,22 +14,31 @@ var toggleFlag = {
   absFlag: true,
   functionToggle: true,
 };
+
 //function that will be called whenever user clicks on the screen or button
 function uiclick(e) {
-  console.log("trial");
-  console.log();
   handleEvents(e.target.innerText);
 }
+
 // function that calculates the factorial of the given number
 const factorial = (n) => (!(n > 1) ? 1 : factorial(n - 1) * n);
-console.log(trigoButton);
+
+// function that will return a string represenying number between operators
+function findNumber() {
+  const tempArr = [];
+  let i = data.screen.length - 1;
+  while (i >= 0 && !isNaN(data.screen[i])) {
+    tempArr.unshift(data.screen[i]);
+    data.operation.pop();
+    i--;
+  }
+  return tempArr.join("");
+}
+
 //event listner that will be called when user presses any key in the keyboard
 window.addEventListener("keydown", (e) => {
   e.preventDefault();
-
-  console.log(e);
   if (e.key == "Enter") {
-    console.log("in if in window");
     finalAnswer(e);
     return;
   } else if (e.key == "Backspace") {
@@ -37,10 +47,10 @@ window.addEventListener("keydown", (e) => {
     handleEvents(e.key);
   }
 });
+
 // funtion for handling keyboard as well as click events
 function handleEvents(btn) {
   var btnText = btn;
-  console.log(btnText);
   let operation = btn;
   switch (btnText) {
     case "1":
@@ -123,8 +133,8 @@ function handleEvents(btn) {
       operation = "**";
       break;
     case "x2":
-      btnText = `${data.screen.pop()}^2`;
-      operation = `Math.pow(${data.operation.pop()},2)`;
+      btnText = "^2";
+      operation = `Math.pow(${findNumber()},2)`;
       break;
     case "sin":
       btnText = "sin(";
@@ -168,8 +178,7 @@ function handleEvents(btn) {
       break;
     case "x!":
       btnText = "!";
-      operation = factorial(data.operation.join(""));
-      console.log(operation);
+      operation = factorial(findNumber());
       break;
     case "\u221A":
       btnText = "\u221A(";
@@ -269,7 +278,6 @@ function handleEvents(btn) {
       emptyarray();
       break;
     case "F-E":
-      console.log(data.operation.length);
       if (data.operation.length === 0) {
         return;
       }
@@ -290,40 +298,34 @@ function handleEvents(btn) {
   data.operation.push(operation);
   data.screen.push(btnText);
   screen.value = data.screen.join("");
-  console.log(data.screen);
-  console.log(data.operation);
 }
+
 // main function that calulates every operation and displays the results
 function finalAnswer(event) {
+  event.stopPropagation();
   if (data.operation.length === 0) {
     return;
   }
-  console.log("finalAnswer");
-  event.stopPropagation();
-  console.log(data.operation.join(""));
   try {
     let value = eval(data.operation.join(""));
-    console.log(value, "vlaue here");
     data.operation = [value];
     data.screen = [value];
-    console.log(data.operation, data.screen, "infinal");
     screen.value = value;
-
     return;
   } catch {
-    console.log(data.operation, data.screen, "error");
     emptyarray();
-    console.log(data.operation, data.screen, "error");
     screen.value = "Invalid Syntax";
     return;
   }
 }
+
 // function for erasing everything
 function emptyarray() {
   data.operation = [];
   data.screen = [];
   return;
 }
+
 // function that handles all the toggle operations (trigoToggle, inverseToggle , hyperToggle , degToggle , functionToggle)
 function toggle(value) {
   let trigoObject = {
@@ -335,27 +337,20 @@ function toggle(value) {
     cosec: ["cosec<sup>-1</sup>", "cosec-1", "cosech"],
     hyp: ["hyp", "hyp", "hyp"],
   };
-  console.log(value);
   if (value == "trigoToggle") {
     trigoButton.forEach((btn) => {
-      // console.log(btn.innerHTML);
       let btnText = btn.innerText;
       let btnTextReplacement = btn.innerText;
       if (toggleFlag.inverseFunction) {
-        console.log(btnText, "in if");
         btnTextReplacement = trigoObject.hasOwnProperty(`${btnText}`)
           ? trigoObject[btnText][0]
           : btnText;
-        console.log(btnTextReplacement, "in if");
       } else {
-        console.log(btnText);
         btnTextReplacement = Object.keys(trigoObject).find(
           (key) => trigoObject[key][1] === btnText
         );
-        console.log(btnTextReplacement, "in heree");
       }
       btn.innerHTML = btnTextReplacement;
-      console.log(btn.innerHTML, "final");
     });
     toggleFlag.inverseFunction = !toggleFlag.inverseFunction;
     return;
@@ -368,7 +363,6 @@ function toggle(value) {
           ? trigoObject[btnText][2]
           : btnText;
       } else {
-        console.log(btnText);
         btnTextReplacement = Object.keys(trigoObject).find(
           (key) => trigoObject[key][2] === btnText
         );
@@ -395,27 +389,27 @@ function toggle(value) {
       document.getElementById("functionButton").style.display = "none";
     }
     return;
-  }
-
-  if (toggleFlag.trigoFunction) {
-    document.getElementById("trigo_function").style.display = "block";
-    toggleFlag.trigoFunction = !toggleFlag.trigoFunction;
   } else {
-    toggleFlag.trigoFunction = !toggleFlag.trigoFunction;
-    document.getElementById("trigo_function").style.display = "none";
+    if (toggleFlag.trigoFunction) {
+      document.getElementById("trigo_function").style.display = "block";
+      toggleFlag.trigoFunction = !toggleFlag.trigoFunction;
+    } else {
+      toggleFlag.trigoFunction = !toggleFlag.trigoFunction;
+      document.getElementById("trigo_function").style.display = "none";
+    }
   }
 }
+
 // function that handles back button clicks and clears the screen
 function backFunction() {
   data.operation.pop();
   data.screen.pop();
   screen.value = data.screen.join("");
 }
-console.log(document.querySelectorAll("#trigo_function .btn"));
+
 //functoin for calculating trignometry values
 function trigonometryValue(operation, value) {
   if (!toggleFlag.radian) {
-    console.log("in trigon");
     value = (value * Math.PI) / 180;
   }
   if (operation == "Math.cosec") {
@@ -429,9 +423,9 @@ function trigonometryValue(operation, value) {
   }
   return operation(value);
 }
+
 //function for calculating inverse trignometry values
 function inverseTrigoFunction(operation, value) {
-  console.log("in inverse");
   if (operation == "Math.asec") {
     value = 1 / Math.acos(value);
   } else {
@@ -442,10 +436,10 @@ function inverseTrigoFunction(operation, value) {
   }
   return value;
 }
+
 // function for calculating hyperbolic trignometry values
 function hyperFunction(operation, value) {
   if (!toggleFlag.radian) {
-    console.log("in trigon");
     value = (value * Math.PI) / 180;
   }
   if (operation == "Math.cosech") {
@@ -459,26 +453,24 @@ function hyperFunction(operation, value) {
   }
   return operation(value);
 }
+
 // function that calculates and stores the data in the memory
 function memoryFunction(event) {
-  console.log(event.target.innerHTML);
   const operation = event.target.innerHTML;
-  console.log("in memory");
+
   switch (operation) {
     case "MS":
-      console.log(data.screen, data.operation, "in ms");
       memory = eval(data.screen.join(""));
       emptyarray();
       screen.value = "";
       break;
     case "MR":
-      console.log(data.screen, data.operation, "in mr");
       data.operation.push(memory);
       data.screen.push(memory);
       screen.value = data.screen.join("");
       break;
     case "MC":
-      console.log(data.screen, data.operation, "in mc");
+      emptyarray();
       memory = "";
       screen.value = "";
       break;
@@ -494,13 +486,11 @@ function memoryFunction(event) {
       break;
   }
 }
+
 // function that clears the screen
 function clearScreen(event) {
   event.preventDefault();
-  console.log("in clear");
   emptyarray();
-  console.log(data.operation);
-  console.log(data.screen);
   screen.value = "";
   return;
 }

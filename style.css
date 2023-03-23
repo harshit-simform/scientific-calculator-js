@@ -8,9 +8,8 @@ body {
   background: white;
   box-sizing: border-box;
 }
-
 .container {
-  width: 35%;
+  width: 30%;
   min-height: 50vh;
   background: #f0f0f0;
 }
@@ -32,24 +31,25 @@ body {
 }
 
 .btns .row button {
-  min-width: 18.7%;
+  min-width: 18%;
   height: 5vh;
   font-size: 16px;
   background: #f8f8f8;
-  border: 1px solid lightgray;
+  margin: 2px;
+  border: none;
   outline: none;
 }
 
 .btns #trigo_function button,
 .btns #functionButton button {
-  width: 18.7%;
+  width: 18%;
   height: 5vh;
   font-size: 16px;
   background: #f8f8f8;
-  border: 1px solid lightgray;
   outline: none;
+  border: none;
 }
-.twoButton button {
+.groupedTwoButton button {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -72,4 +72,13 @@ body {
 .row svg {
   width: 60%;
   height: 60%;
+}
+.removeMargin button {
+  margin: 0 !important;
+}
+.hover-icon {
+  transform: rotate(-90deg);
+  width: 25% !important;
+  height: 25% !important;
+  margin-left: 5px;
 }
