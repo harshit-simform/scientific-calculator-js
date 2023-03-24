@@ -32,6 +32,7 @@ function findNumber() {
     data.operation.pop();
     i--;
   }
+  console.log(tempArr.join(""));
   return tempArr.join("");
 }
 
@@ -297,6 +298,8 @@ function handleEvents(btn) {
   }
   data.operation.push(operation);
   data.screen.push(btnText);
+  console.log(data.screen);
+  console.log(data.operation);
   screen.value = data.screen.join("");
 }
 
@@ -307,6 +310,7 @@ function finalAnswer(event) {
     return;
   }
   try {
+    console.log(data.operation.join(""));
     let value = eval(data.operation.join(""));
     data.operation = [value];
     data.screen = [value];
@@ -402,8 +406,14 @@ function toggle(value) {
 
 // function that handles back button clicks and clears the screen
 function backFunction() {
-  data.operation.pop();
-  data.screen.pop();
+  if (data.screen.length === data.operation.length) {
+    data.operation.pop();
+    data.screen.pop();
+  } else {
+    data.screen.length > data.operation.length
+      ? data.screen.pop()
+      : data.operation.pop();
+  }
   screen.value = data.screen.join("");
 }
 
