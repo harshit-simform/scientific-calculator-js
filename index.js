@@ -23,17 +23,30 @@ function uiclick(e) {
 // function that calculates the factorial of the given number
 const factorial = (n) => (!(n > 1) ? 1 : factorial(n - 1) * n);
 
-// function that will return a string represenying number between operators
+// function that will return a string representing number between operators
 function findNumber() {
+  let i = data.screen.length;
   const tempArr = [];
-  let i = data.screen.length - 1;
-  while (i >= 0 && !isNaN(data.screen[i])) {
-    tempArr.unshift(data.screen[i]);
-    data.operation.pop();
-    i--;
+  console.log(data.screen[i]);
+  if (data.screen[i - 1] == ")") {
+    console.log(data.screen[i]);
+    while (i >= 0 && data.screen[i] !== "(") {
+      console.log(data.screen[i]);
+      tempArr.unshift(data.screen[i]);
+      data.operation.pop();
+      i--;
+    }
+    tempArr.unshift("(");
+  } else {
+    let i = data.screen.length - 1;
+    while (i >= 0 && !isNaN(data.screen[i])) {
+      tempArr.unshift(data.screen[i]);
+      data.operation.pop();
+      i--;
+    }
   }
   console.log(tempArr.join(""));
-  return tempArr.join("");
+  return eval(tempArr.join(""));
 }
 
 //event listner that will be called when user presses any key in the keyboard
@@ -269,13 +282,13 @@ function handleEvents(btn) {
       operation = rand;
       break;
     case "ceil":
-      btnText = `${Math.ceil(data.screen.join(""))}`;
-      operation = `${Math.ceil(data.operation.join(""))}`;
+      btnText = `${Math.ceil(eval(data.screen.join("")))}`;
+      operation = `${Math.ceil(eval(data.operation.join("")))}`;
       emptyarray();
       break;
     case "floor":
-      btnText = `${Math.floor(data.screen.join(""))}`;
-      operation = `${Math.floor(data.operation.join(""))}`;
+      btnText = `${Math.floor(eval(data.screen.join("")))}`;
+      operation = `${Math.floor(eval(data.operation.join("")))}`;
       emptyarray();
       break;
     case "F-E":
@@ -414,6 +427,8 @@ function backFunction() {
       ? data.screen.pop()
       : data.operation.pop();
   }
+  console.log(data.screen, "back");
+  console.log(data.operation, "back");
   screen.value = data.screen.join("");
 }
 
